@@ -1,0 +1,14 @@
+class solution {
+public:
+    void partition (LinkedList * L , int val){
+        ListNode* cur = L->head;
+        ListNode* last = cur;
+        while (cur){
+            if (cur->val < val){
+                swap (cur->val , last->val);
+                last = last->next;
+            }
+            cur = cur->next;
+        }
+    }
+};
