@@ -1,0 +1,78 @@
+
+// a1->a2->...->am->b1->b2->...->bm to a1->b1->a2->b2->...>am->bm
+#include <iostream>
+
+using namespace std;
+
+struct ListNode {
+    int val;
+    ListNode* next;
+    ListNode (int x){val = x; next = NULL;}
+};
+
+struct LinkedList {
+    ListNode* head;
+    LinkedList (){head = NULL;}
+    void addtolist (int x){
+        ListNode* newnode = new ListNode (x);
+        if (!head){
+            head = newnode;
+        }
+        else{
+            newnode->next = head;
+            head = newnode;
+        }
+    }
+    void printList(){
+        ListNode* cur = head;
+        while (cur){
+            cout << cur->val << " ";
+            cur = cur->next;
+        }
+        cout << endl;
+    }
+};
+
+
+class solution{
+public:
+    LinkedList* rearrange (LinkedList* L){
+        ListNode* slow = L->head;
+        ListNode* fast = L->head;
+        
+        while (fast){
+            fast = fast->next->next;
+            slow = slow->next;
+        }
+        fast = L->head;
+        LinkedList* L2 = new LinkedList();
+        L2->addtolist(0); // adding a dummy node;
+        L2->head->next = L->head;
+        ListNode* cur = L2->head;
+        ListNode* fastnext;
+        ListNode* slownext;
+        
+        while (slow){
+            fastnext = fast->next;
+            slownext = slow->next;
+            cur->next = fast;
+            fast->next = slow;
+            cur = slow;
+            slow = slownext;
+            fast = fastnext;
+        }
+        L2->head = L2->head->next;
+        return L2;
+    }
+};
+
+int main(int argc, const char * argv[]) {
+    LinkedList *L = new LinkedList();
+    int n = 6; // any even number
+    for (int i=0 ; i<6 ; i++)
+        L->addtolist(i);
+    L->printList();
+    solution s;
+    s.rearrange(L)->printList();
+    return 0;
+}
