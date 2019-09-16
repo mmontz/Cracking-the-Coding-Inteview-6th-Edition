@@ -11,18 +11,36 @@ struct LinkedList {
 
 
 class solution {
-    void removeDuplicates (LinkedList* L){
-        while (L->head && L->head->next && L->head->val == L->head->next->val)
-            L->head = L->head->next;
+    void removeDuplicateswBuffer (LinkedList* L){
+        unordered_set<int> seen;
         ListNode* cur = L->head;
+        ListNode* last = NULL;
         
-        while (cur && cur->next){
-            if (cur->val == cur->next->val){
-                cur->next = cur->next->next;
+        while (cur){
+            if (seen.find(cur->val) != seen.end()){
+                last->next = cur->next;
             }
-            else
-                cur = cur->next;
+            else{
+                seen.insert(cur->val);
+                last = cur;
+            }
+            cur = cur->next;
         }
     }
     
+    void removeDuplicateswoBuffer (LinkedList* L){
+        ListNode* runner1 = L->head;
+        while (runner1){
+            ListNode* runner2 = runner1;
+            while (runner2->next){
+                if (runner1->val == runner2->next->val){
+                    runner2->next = runner2->next->next;
+                }
+                else{
+                    runner2 = runner2->next;
+                }
+            }
+            runner1 = runner1->next;
+        }
+    }
 };
