@@ -1,0 +1,28 @@
+struct ListNode {
+    int val;
+    ListNode* next;
+    ListNode (int x){val = x; next = NULL;}
+};
+
+struct LinkedList {
+    ListNode* head;
+    LinkedList (){head = NULL;}
+};
+
+
+class solution {
+    void removeDuplicates (LinkedList* L){
+        while (L->head && L->head->next && L->head->val == L->head->next->val)
+            L->head = L->head->next;
+        ListNode* cur = L->head;
+        
+        while (cur && cur->next){
+            if (cur->val == cur->next->val){
+                cur->next = cur->next->next;
+            }
+            else
+                cur = cur->next;
+        }
+    }
+    
+};
