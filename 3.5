@@ -1,0 +1,59 @@
+class solution1 {
+public:
+    stack<int> sortStack (stack <int> mystack){
+        stack <int> temp;
+        int MAX=INT_MIN;
+        int lastsorted = INT_MIN;
+        while (mystack.top() != lastsorted){
+            while (!mystack.empty() && mystack.top ()!= lastsorted){
+                temp.push(mystack.top());
+                MAX = max (MAX , mystack.top());
+                mystack.pop();
+            }
+            mystack.push(MAX);
+            lastsorted = MAX;
+            int NEWMAX = INT_MIN;
+            while (!temp.empty()){
+                if (temp.top() != MAX){
+                    mystack.push(temp.top());
+                    NEWMAX = max (NEWMAX, temp.top());
+                }
+                temp.pop();
+            }
+            MAX = NEWMAX;
+        }
+        return mystack;
+    }
+
+};
+
+
+class solution2 {
+public:
+    stack <int> sortStack (stack <int> s){
+        stack <int> temp;
+        while (!s.empty()){
+            if (temp.empty() || temp.top()<s.top()){
+                temp.push(s.top());
+                s.pop();
+            }
+            else{
+                int cur = s.top();
+                s.pop();
+                while (!temp.empty() && temp.top()>cur){
+                    s.push(temp.top());
+                    temp.pop();
+                }
+                temp.push(cur);
+            }
+        }
+        
+        while (!temp.empty()){
+            s.push(temp.top());
+            temp.pop();
+        }
+        
+        return s;
+    }
+    
+};
