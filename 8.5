@@ -1,0 +1,18 @@
+class solution{
+    public:
+    long recMultiply (int a , int b){
+        long int smaller = min(a,b);
+        long int bigger = max (a,b);
+        if (smaller == 0)
+            return 0;
+        if (smaller==1)
+            return bigger;
+        
+        long int partialRes = recMultiply(smaller/2, bigger);
+        if (smaller%2 == 0)
+            return partialRes+partialRes;
+        return
+            partialRes+partialRes+bigger;
+        
+    }
+};
