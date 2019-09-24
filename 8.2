@@ -1,0 +1,83 @@
+#include <iostream>
+#include <vector>
+#include <set>
+using namespace std;
+
+
+bool findpath (vector <vector <int>> &v, vector <vector <int>> &grid, int r, int c , string& curpath){
+    if (grid[r][c]){
+        v[r][c] = 0;
+        return false;
+    }
+    if (r == 0 && c==0){
+        v[r][c] = 1;
+        curpath += " [" + to_string(r) + ", " + to_string(c) + "]";
+        return true;
+    }
+
+    int up;
+    if (r-1>=0 && v[r-1][c] == -1)
+        findpath(v,grid, r-1, c, curpath);
+    else
+        up = v[r-1][c];
+    
+    if (v[r-1][c] == 1){
+        v[r][c] = 1;
+        curpath = curpath+ " [" + to_string(r) + ", " + to_string(c) + "]";
+        return true;
+    }
+    
+    int left;
+    
+    if (c-1>=0 && v[r][c-1] == -1)
+        findpath(v, grid, r, c-1, curpath);
+    else
+        left = v[r][c-1];
+    
+    if (v[r][c-1] == 1){
+        v[r][c] = 1;
+        curpath = curpath+ " [" + to_string(r) + ", " + to_string(c) + "]";
+        return true;
+    }
+    v[r][c] = 0;
+    return false;
+}
+
+bool findpath2 (vector <vector <int>> & grid , set<pair <int, int>>& failedpoints , int r , int c, string & curpath){
+    if (r<0 || c<0 || grid[r][c]){
+        return false;
+    }
+    
+    if ((r == 0 && c==0) || findpath2(grid, failedpoints, r-1, c , curpath) || findpath2(grid, failedpoints, r, c-1 , curpath)){
+        curpath = curpath+ " [" + to_string(r) + ", " + to_string(c) + "]";
+        return true;
+    }
+    failedpoints.insert({r,c});
+    return false;
+}
+
+int main(int argc, const char * argv[]) {
+    int m;
+    int n;
+    cin >> m >> n;
+    vector <vector <int>> DP;
+    vector <vector <int>> matrix;
+    matrix.resize (m);
+    DP.resize(m);
+    for (int i=0 ; i<m ; i++){
+        matrix[i].resize(n); // 1 = obstacle, 0 = free
+        DP[i].resize(n);
+    }
+    
+    for (int i=0 ; i<m ; i++)
+        for (int j=0 ; j<n ; j++){
+            cin >> matrix[i][j];
+            DP[i][j] = -1; // -1 initialization , 0 no path, 1 there is path
+        }
+    
+   
+    string res = "";
+    findpath (DP , matrix, m-1 ,n-1 , res);
+    cout << res << endl;
+    return 0;
+}
