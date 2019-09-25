@@ -1,0 +1,45 @@
+
+class solution{
+public:
+    void HanoiTower (int n , stack <int> & S1 , stack <int> & S2 , stack <int> & S3){
+        if (n == 0)
+            return;
+        if (n == 1){
+            S3.push(S1.top());
+            S1.pop();
+            return;
+        }
+        HanoiTower(n-1, S1, S3, S2);
+        S3.push(S1.top());
+        S1.pop();
+        HanoiTower(n-1, S2, S1, S3);
+    }
+    
+    void HanoiTower (int n){
+        stack <int> S1;
+        stack <int> S2;
+        stack <int> S3;
+        for (int i=n ; i>=1 ; i--)
+            S1.push(i);
+        HanoiTower (n , S1, S2, S3);
+        cout << "S1 items" << endl;
+        while (!S1.empty()){
+            cout << S1.top() << " ";
+            S1.pop();
+        }
+        cout << endl;
+        cout << "S2 items" << endl;
+        while (!S2.empty()){
+            cout << S2.top() << " ";
+            S2.pop();
+        }
+        
+        cout << "S3 items" << endl;
+        while (!S3.empty()){
+            cout << S3.top() << " ";
+            S3.pop();
+        }
+    }
+
+};
+
